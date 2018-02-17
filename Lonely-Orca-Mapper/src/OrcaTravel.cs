@@ -33,8 +33,8 @@ namespace LonelyOrca
         private float minY;
 
         private Vector3 target;
-        private float delay = 20;
-        private int remainingBreaths = 3;
+        private float delay;
+        private int remainingBreaths;
         private int idleStateHash;
 
         void Start()
@@ -49,7 +49,6 @@ namespace LonelyOrca
             this.layerIndex = this.animator.GetLayerIndex("Default");
 
             while (!GetRandomPosition(out this.target)) ;
-            this.target = new Vector3(1240, WATER_LEVEL, 701);
             this.transform.position = this.target;
         }
 
@@ -122,7 +121,6 @@ namespace LonelyOrca
 
         private void DoBreathe()
         {
-            Debug.Log("Breathing @" + this.transform.position);
             this.remainingBreaths--;
 
             if (!this.GetTarget(BREATH_DISTANCE, out this.target))
@@ -153,7 +151,6 @@ namespace LonelyOrca
 
         private void DoJump()
         {
-            Debug.Log("Jumping @" + this.transform.position);
             if (!this.GetTarget(JUMP_DISTANCE, out this.target))
             {
                 return;
@@ -238,7 +235,6 @@ namespace LonelyOrca
 
         private bool ShouldJump()
         {
-            return this.remainingBreaths-- == 1;
             return Utils.RollChance(JUMP_CHANCE);
         }
     }
