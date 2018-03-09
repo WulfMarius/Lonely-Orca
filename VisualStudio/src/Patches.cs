@@ -4,15 +4,6 @@ using UnityEngine;
 
 namespace LonelyOrca
 {
-    [HarmonyPatch(typeof(PlayAkSound), "OnEnable")]
-    internal class PlayAkSoundPatch
-    {
-        private static void Postfix(PlayAkSound __instance)
-        {
-            GameAudioManager.Play3DSound(__instance.soundName, __instance.gameObject);
-        }
-    }
-
     [HarmonyPatch(typeof(GameManager), "Start")]
     internal class GameManager_Start
     {

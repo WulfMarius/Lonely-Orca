@@ -7,6 +7,7 @@ namespace LonelyOrca
     {
         public static void OnLoad()
         {
+            Debug.Log("[Lonely-Orca]: Version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
         }
     }
 }

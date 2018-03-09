@@ -181,7 +181,7 @@ AnimationClip:
     attribute: m_Enabled
     path: orca
     classID: 114
-    script: {fileID: 2089005121, guid: 16a06181d06b61c4684cee93d0edef8c, type: 3}
+    script: {fileID: -2002556618, guid: 4d584e6d9344fac4aa181a322f253e77, type: 3}
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 0
@@ -214,7 +214,7 @@ AnimationClip:
     - serializedVersion: 2
       path: 1628564957
       attribute: 3305885265
-      script: {fileID: 2089005121, guid: 16a06181d06b61c4684cee93d0edef8c, type: 3}
+      script: {fileID: -2002556618, guid: 4d584e6d9344fac4aa181a322f253e77, type: 3}
       typeID: 114
       customType: 24
       isPPtrCurve: 0
@@ -433,7 +433,7 @@ AnimationClip:
     attribute: m_Enabled
     path: orca
     classID: 114
-    script: {fileID: 2089005121, guid: 16a06181d06b61c4684cee93d0edef8c, type: 3}
+    script: {fileID: -2002556618, guid: 4d584e6d9344fac4aa181a322f253e77, type: 3}
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0

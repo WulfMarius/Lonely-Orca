@@ -19,25 +19,29 @@ namespace LonelyOrca
         private const float JUMP_MAX_DELAY = 20;
         private const float JUMP_MIN_DELAY = 5;
 
-        private const int MAX_TARGET_FINDING_LOOPS = 50;
         private const int MAX_PLAYER_DISTANCE = 150 * 150;
+        private const int MAX_TARGET_FINDING_LOOPS = 50;
         private const float WATER_LEVEL = 15.3f;
+
+        private static readonly int STATE_IDLE = Animator.StringToHash("Idle");
+        private static readonly int TRIGGER_BREATHE = Animator.StringToHash("Breathe");
+        private static readonly int TRIGGER_JUMP = Animator.StringToHash("Jump");
 
         private Animator animator;
         private float[] areaX = { 1330, 1428, 1399, 1327, 1249, 1163, 1199, 1225, 1221, 1263, 1307, 1243, 1076, 762, 662, 625, 504, 407, 369, 203, 121, 1600, 1600 };
         private float[] areaY = { 1815, 1571, 1388, 1370, 1430, 1308, 1162, 1114, 1052, 1025, 872, 729, 657, 641, 681, 669, 669, 676, 768, 749, 400, 400, 1815 };
+
+        private float delay;
         private int layerIndex;
         private float maxX;
         private float maxY;
         private float minX;
         private float minY;
 
-        private Vector3 target;
-        private float delay;
         private int remainingBreaths;
-        private int idleStateHash;
+        private Vector3 target;
 
-        void Start()
+        internal void Start()
         {
             this.minX = Mathf.Min(areaX);
             this.maxX = Mathf.Max(areaX);
@@ -45,14 +49,14 @@ namespace LonelyOrca
             this.maxY = Mathf.Max(areaY);
 
             this.animator = this.GetComponentInChildren<Animator>();
-            this.idleStateHash = Animator.StringToHash("Idle");
+
             this.layerIndex = this.animator.GetLayerIndex("Default");
 
             while (!GetRandomPosition(out this.target)) ;
             this.transform.position = this.target;
         }
 
-        void Update()
+        internal void Update()
         {
             this.delay -= Time.deltaTime;
             if (this.delay > 0)
@@ -60,7 +64,7 @@ namespace LonelyOrca
                 return;
             }
 
-            if (this.animator.GetCurrentAnimatorStateInfo(layerIndex).shortNameHash != idleStateHash)
+            if (this.animator.GetCurrentAnimatorStateInfo(layerIndex).shortNameHash != STATE_IDLE)
             {
                 this.delay += 0.1f;
                 return;
@@ -84,24 +88,6 @@ namespace LonelyOrca
             }
         }
 
-        private bool IsPlayerCloseEnough()
-        {
-            Vector3 playerPosition = GameManager.GetPlayerTransform().position;
-
-            for (int i = 0; i < areaX.Length; i++)
-            {
-                float deltaX = areaX[i] - playerPosition.x;
-                float deltaY = areaY[i] - playerPosition.z;
-
-                if (deltaX * deltaX + deltaY * deltaY < MAX_PLAYER_DISTANCE)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         private static bool IsOrcaActive()
         {
             TODBlendState todBlendState = GameManager.GetTimeOfDayComponent().GetTODBlendState();
@@ -122,14 +108,13 @@ namespace LonelyOrca
         private void DoBreathe()
         {
             this.remainingBreaths--;
-
             if (!this.GetTarget(BREATH_DISTANCE, out this.target))
             {
                 return;
             }
 
             this.transform.LookAt(this.target, Vector3.up);
-            this.animator.SetBool("Breathe", true);
+            this.animator.SetTrigger(TRIGGER_BREATHE);
 
             this.delay = Random.Range(BREATHE_MIN_DELAY, BREATHE_MAX_DELAY);
         }
@@ -142,6 +127,7 @@ namespace LonelyOrca
             }
 
             this.delay = Random.Range(DIVE_MIN_DELAY, DIVE_MAX_DELAY);
+            this.transform.position = this.target;
 
             if (IsOrcaActive() && IsPlayerCloseEnough())
             {
@@ -157,7 +143,7 @@ namespace LonelyOrca
             }
 
             this.transform.LookAt(target, Vector3.up);
-            this.animator.SetBool("Jump", true);
+            this.animator.SetTrigger(TRIGGER_JUMP);
 
             this.delay = Random.Range(JUMP_MIN_DELAY, JUMP_MAX_DELAY);
         }
@@ -226,6 +212,24 @@ namespace LonelyOrca
             }
 
             return result;
+        }
+
+        private bool IsPlayerCloseEnough()
+        {
+            Vector3 playerPosition = GameManager.GetPlayerTransform().position;
+
+            for (int i = 0; i < areaX.Length; i++)
+            {
+                float deltaX = areaX[i] - playerPosition.x;
+                float deltaY = areaY[i] - playerPosition.z;
+
+                if (deltaX * deltaX + deltaY * deltaY < MAX_PLAYER_DISTANCE)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private bool ShouldDive()

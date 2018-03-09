@@ -1,4 +1,9 @@
 .vs
+AssetBundles
 Library
 Temp
-AssetBundles
+UnityPackageManager
+Unity.csproj
+Unity.sln
+Unity.Editor.csproj
+UnityPlayer.dll
