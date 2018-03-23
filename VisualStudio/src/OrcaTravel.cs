@@ -56,6 +56,11 @@ namespace LonelyOrca
             this.transform.position = this.target;
         }
 
+        internal void SkipDelay()
+        {
+            this.delay = 0;
+        }
+
         internal void Update()
         {
             this.delay -= Time.deltaTime;
