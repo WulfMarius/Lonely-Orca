@@ -1,0 +1,23 @@
+﻿{
+	"name": "Lonely-Orca",
+	"description": "A lonely orca is living in Desolation Point.",
+	"url": "https://github.com/WulfMarius/Lonely-Orca",
+	"releases": [
+		{
+			"version": "2.0.0",
+			"url": "https://github.com/WulfMarius/Lonely-Orca/releases/tag/2.0.0-main",
+			"changes": "updated to work with TLD V1.27",
+			"dependencies": [
+				{
+					"name": "ModComponent",
+					"version": "^2.0.0",
+				}
+			],
+			"assets": [
+				{
+					"url": "https://github.com/WulfMarius/Lonely-Orca/releases/download/2.0.0-main/Lonely-Orca-V2.0.0.zip"
+				}
+			]
+		}
+	]
+}
