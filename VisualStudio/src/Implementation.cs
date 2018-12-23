@@ -2,13 +2,26 @@
 
 namespace LonelyOrca
 {
-    public class Bootstrap
+    public class Implementation
     {
+        private const string NAME = "Lonely-Orca";
+
         public static void OnLoad()
         {
-            Debug.Log("[Lonely-Orca]: Version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+            Log("Version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
 
             uConsole.RegisterCommand("orca-trigger", new uConsole.DebugCommand(OrcaTrigger));
+        }
+
+        internal static void Log(string message)
+        {
+            Debug.LogFormat("[" + NAME + "] {0}", message);
+        }
+
+        internal static void Log(string message, params object[] parameters)
+        {
+            string preformattedMessage = string.Format("[" + NAME + "] {0}", message);
+            Debug.LogFormat(preformattedMessage, parameters);
         }
 
         private static void OrcaTrigger()

@@ -1,5 +1,4 @@
 ﻿using Harmony;
-
 using UnityEngine;
 
 namespace LonelyOrca
@@ -9,16 +8,20 @@ namespace LonelyOrca
     {
         private static void Postfix(GameManager __instance)
         {
-            if (GameManager.m_ActiveScene == "WhalingStationRegion")
+            if (GameManager.m_ActiveScene != "WhalingStationRegion")
             {
-                GameObject orcaRoot = Resources.Load("orca_root") as GameObject;
-
-                if (orcaRoot)
-                {
-                    GameObject orca = GameObject.Instantiate(orcaRoot);
-                    orca.AddComponent<OrcaTravel>();
-                }
+                return;
             }
+
+            GameObject orcaRoot = Resources.Load("orca_root") as GameObject;
+            if (!orcaRoot)
+            {
+                Implementation.Log("Could not load prefab!");
+                return;
+            }
+
+            GameObject orca = GameObject.Instantiate(orcaRoot);
+            orca.AddComponent<OrcaTravel>();
         }
     }
 }
